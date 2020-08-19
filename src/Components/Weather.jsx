@@ -10,27 +10,23 @@ class Weather extends Component {
   };
 
   componentDidMount() {
+    console.log(this.props.city);
     //how to use this dynamically: may need to set this up as a different render to feed this component location via props
     fetch(
       //need to figure a good way to dynamically alter the location based off the above data
       //until I intersect the API requests => Charlotte will display
       `http://api.weatherstack.com/current?access_key=018e1f64a66c47e9d00410505708983b&query=${
-        this.state.location || "charlotte"
+        this.props.city || "charlotte"
       }`
     )
       .then((response) => response.json())
       .then((data) => {
         this.setState({ weather: data, loading: false });
       });
-    fetch("https://freegeoip.app/json/")
-      .then((res) => res.json())
-      .then((data) => {
-        this.setState({ location: data.city });
-      });
   }
 
   render() {
-    const { weather, loading, location } = this.state;
+    const { weather, loading } = this.state;
 
     return (
       <div className="container">
